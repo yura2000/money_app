@@ -1,8 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:money/constants/buttons.dart';
+import 'package:money/constants/colors.dart';
+import 'package:money/constants/dimension.dart';
 
-class TopUp extends StatelessWidget {
-  TopUp({Key? key}) : super(key: key);
+String userQuestion = '0';
 
+class TopUpPage extends StatefulWidget {
+  const TopUpPage({Key? key}) : super(key: key);
+
+  @override
+  State<TopUpPage> createState() => _TopUpPageState();
+}
+
+class _TopUpPageState extends State<TopUpPage> {
   final List<String> buttons = [
     "1",
     "2",
@@ -21,14 +31,17 @@ class TopUp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xffC0028B),
+      backgroundColor: AppColors.background,
       body: Padding(
-        padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top),
+        padding: EdgeInsets.only(
+          top: MediaQuery.of(context).padding.top,
+          bottom: doubleLightSpace * 2,
+        ),
         child: Center(
           child: Column(
             children: [
               Padding(
-                padding: const EdgeInsets.only(right: 14),
+                padding: const EdgeInsets.only(right: largeSpace),
                 child: Stack(
                   children: [
                     const Center(
@@ -43,9 +56,9 @@ class TopUp extends StatelessWidget {
                       ),
                     ),
                     Positioned(
-                      right: 11,
+                      right: largeSpace,
                       child: IconButton(
-                        constraints: BoxConstraints(),
+                        constraints: const BoxConstraints(),
                         padding: EdgeInsets.zero,
                         onPressed: () {},
                         icon: const Icon(
@@ -54,30 +67,29 @@ class TopUp extends StatelessWidget {
                         ),
                       ),
                     ),
-                    const SizedBox(width: 1)
                   ],
                 ),
               ),
-              const SizedBox(height: 93),
+              const SizedBox(height: mediumSpace * 9),
               const Text(
                 "How much?",
                 style: TextStyle(
                   fontSize: 25,
-                  height: 0.88,
                   fontWeight: FontWeight.w600,
                   color: Colors.white,
                 ),
               ),
-              const SizedBox(height: 80),
+              const SizedBox(height: mediumSpace * 6),
               RichText(
-                text: const TextSpan(
+                maxLines: 2,
+                text: TextSpan(
                   text: '£',
                   style: TextStyle(fontSize: 25, fontWeight: FontWeight.w600),
                   children: <TextSpan>[
                     TextSpan(
-                      text: '100',
+                      text: userQuestion,
                       style: TextStyle(
-                        fontSize: 50,
+                        fontSize: 70,
                         fontWeight: FontWeight.w600,
                       ),
                     ),
@@ -91,41 +103,86 @@ class TopUp extends StatelessWidget {
                   ],
                 ),
               ),
-              const SizedBox(height: 50),
+              const Spacer(),
               SizedBox(
-                height: 300,
+                height: mediumSpace * 21,
                 child: GridView.builder(
+                  physics: const NeverScrollableScrollPhysics(),
+                  padding: EdgeInsets.zero,
                   itemCount: buttons.length,
                   gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 3),
+                    childAspectRatio: 2.5,
+                    crossAxisCount: 3,
+                  ),
                   itemBuilder: (
                     BuildContext context,
                     int index,
                   ) {
-                    return ButtonTheme(
-                      minWidth: 110,
-                      height: 60,
-                      child: TextButton(
-                        onPressed: () {},
-                        child: Text(
-                          buttons[index],
-                          style: const TextStyle(color: Colors.white),
+                    if (index == buttons.length - 1) {
+                      return ButtonTheme(
+                        minWidth: mediumSpace * 11,
+                        height: doubleMediumSpace * 3,
+                        child: TextButton(
+                          onPressed: () {
+                            setState(() {
+                              userQuestion = userQuestion.substring(
+                                  0, userQuestion.length - 1);
+                            });
+                          },
+                          child: Text(
+                            buttons[index],
+                            style: const TextStyle(
+                              color: Colors.white,
+                              fontSize: 25,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
                         ),
-                      ),
-                    );
+                      );
+                    } else if (index == buttons.length - 3) {
+                      return ButtonTheme(
+                        minWidth: mediumSpace * 11,
+                        height: doubleMediumSpace * 3,
+                        child: TextButton(
+                          onPressed: () {},
+                          child: Text(
+                            buttons[index],
+                            style: const TextStyle(
+                              color: Colors.white,
+                              fontSize: 25,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                        ),
+                      );
+                    } else {
+                      return ButtonTheme(
+                        minWidth: mediumSpace * 11,
+                        height: doubleMediumSpace * 3,
+                        child: TextButton(
+                          onPressed: () {
+                            setState(() {
+                              userQuestion += buttons[index];
+                            });
+                          },
+                          child: Text(
+                            buttons[index],
+                            style: const TextStyle(
+                              color: Colors.white,
+                              fontSize: 25,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                        ),
+                      );
+                    }
                   },
                 ),
               ),
-              ButtonTheme(
-                minWidth: 200,
-                height: 60,
-                child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                      fixedSize: const Size(200, 60),
-                      primary: Color.fromARGB(255, 194, 60, 172)),
-                  onPressed: () {},
-                  child: Text("Next"),
-                ),
+              const Spacer(),
+              AppButton.mainButton(
+                title: "Next",
+                onPressed: () {},
               ),
             ],
           ),
