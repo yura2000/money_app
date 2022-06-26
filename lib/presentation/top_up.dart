@@ -160,6 +160,10 @@ class _TopUpPageState extends State<TopUpPage> {
                               if (remainder.isEmpty) {
                                 remainder += buttons[index];
                               }
+                              if (integer.isEmpty) {
+                                integer += '0';
+                                remainder = buttons[index];
+                              }
                             },
                           );
                         },
@@ -181,13 +185,15 @@ class _TopUpPageState extends State<TopUpPage> {
                         onPressed: () {
                           setState(
                             () {
-                              if (integer.isEmpty && buttons[index] == '0') {
-                              } else if (remainder.isEmpty) {
-                                integer += buttons[index];
-                              }
                               if (remainder.isNotEmpty &&
                                   remainder.length < 3) {
                                 remainder += buttons[index];
+                              }
+                              if (integer.isEmpty && buttons[index] == '0') {
+                                integer += buttons[index];
+                                remainder = '.';
+                              } else if (remainder.isEmpty) {
+                                integer += buttons[index];
                               }
                             },
                           );
