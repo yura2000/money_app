@@ -93,8 +93,10 @@ class _TransactionDetailsPageState extends State<TransactionDetailsPage> {
                         Radius.circular(6),
                       ),
                     ),
-                    child: const Icon(
-                      AppIcons.pay,
+                    child: Icon(
+                      transaction.type == TransactionType.pay
+                          ? AppIcons.pay
+                          : Icons.add_circle,
                       color: AppColors.white,
                       size: 35,
                     ),

@@ -21,7 +21,7 @@ class MoneyApp extends StatelessWidget {
       getPages: [
         GetPage(
           name: home,
-          page: () => const TransactionsPage(),
+          page: () => TransactionsPage(),
           binding: TransactionBinding(),
         ),
         GetPage(

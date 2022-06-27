@@ -2,10 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:money/constants/colors.dart';
 import 'package:money/constants/navigation.dart';
+import 'package:money/presentation/transaction/controller/controller.dart';
 import 'package:money/presentation/transaction/model/transaction_model.dart';
 
 class TransactionsPage extends StatelessWidget {
-  const TransactionsPage({Key? key}) : super(key: key);
+  TransactionsPage({Key? key}) : super(key: key);
+
+  final controller = Get.find<TransactionController>();
 
   @override
   Widget build(BuildContext context) {
@@ -36,29 +39,34 @@ class TransactionsPage extends StatelessWidget {
                       ),
                     ),
                     const SizedBox(height: 60),
-                    RichText(
-                      textAlign: TextAlign.center,
-                      maxLines: 2,
-                      text: const TextSpan(
-                        text: '£',
-                        style: TextStyle(
-                            fontSize: 25, fontWeight: FontWeight.w600),
-                        children: <TextSpan>[
-                          TextSpan(
-                            text: "150",
-                            style: TextStyle(
-                              fontSize: 50,
-                              fontWeight: FontWeight.w600,
+                    Obx(
+                      () => RichText(
+                        textAlign: TextAlign.center,
+                        maxLines: 2,
+                        text: TextSpan(
+                          text: '£',
+                          style: const TextStyle(
+                              fontSize: 25, fontWeight: FontWeight.w600),
+                          children: <TextSpan>[
+                            TextSpan(
+                              text: controller.currentAmount.value
+                                  .split('.')
+                                  .first,
+                              style: const TextStyle(
+                                fontSize: 50,
+                                fontWeight: FontWeight.w600,
+                              ),
                             ),
-                          ),
-                          TextSpan(
-                            text: '.25',
-                            style: TextStyle(
-                              fontSize: 25,
-                              fontWeight: FontWeight.w600,
+                            TextSpan(
+                              text:
+                                  '.${controller.currentAmount.value.split('.').last}',
+                              style: const TextStyle(
+                                fontSize: 25,
+                                fontWeight: FontWeight.w600,
+                              ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
                     ),
                   ],
@@ -67,8 +75,11 @@ class TransactionsPage extends StatelessWidget {
               Expanded(
                 child: Container(
                   color: AppColors.grey,
-                  child: ListView(
-                    children: createFeedList(context, transaction).toList(),
+                  child: Obx(
+                    () => ListView(
+                      children: createFeedList(context, controller.transactions)
+                          .toList(),
+                    ),
                   ),
                 ),
               ),
