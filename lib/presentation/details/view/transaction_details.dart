@@ -221,7 +221,11 @@ class _TransactionDetailsPageState extends State<TransactionDetailsPage> {
             Material(
               color: AppColors.white,
               child: InkWell(
-                onTap: () {},
+                onTap: () => showDialog(
+                  context: context,
+                  builder: (_) => Dialog(),
+                  barrierDismissible: false,
+                ),
                 child: Container(
                   height: mediumSpace * 5,
                   width: double.infinity,
@@ -265,6 +269,24 @@ class _TransactionDetailsPageState extends State<TransactionDetailsPage> {
           ],
         ),
       ),
+    );
+  }
+}
+
+class Dialog extends StatelessWidget {
+  const Dialog({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      title: const Text('Help is on the way, stay put!'),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+      actions: [
+        TextButton(
+          onPressed: () => Navigator.pop(context),
+          child: const Text('Thanks!'),
+        ),
+      ],
     );
   }
 }
