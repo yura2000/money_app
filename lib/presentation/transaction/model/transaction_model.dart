@@ -107,7 +107,7 @@ Widget activity(Transaction item) {
     icon = AppIcons.pay;
   } else {
     textColor = AppColors.purple;
-    icon = Icons.plus_one_outlined;
+    icon = Icons.add_circle;
   }
 
   return Material(
@@ -118,12 +118,11 @@ Widget activity(Transaction item) {
         height: mediumSpace * 5,
         width: double.infinity,
         padding: const EdgeInsets.only(
-          top: halfMediumSpace * 3,
-          bottom: halfMediumSpace * 3,
           left: halfMediumSpace * 5,
-          right: halfMediumSpace * 5,
+          right: doubleMediumSpace,
         ),
         child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Container(
               height: doubleMediumSpace,
