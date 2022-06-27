@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:money/constants/app_icons.dart';
 import 'package:money/constants/colors.dart';
 import 'package:money/constants/dimension.dart';
+import 'package:money/presentation/transaction/controller/controller.dart';
+import 'package:money/presentation/transaction/model/transaction_model.dart';
 
 bool switchValue = false;
 
@@ -20,6 +23,10 @@ class _TransactionDetailsPageState extends State<TransactionDetailsPage> {
         switchValue = newValue;
       });
     }
+
+    final Transaction transaction = Get.arguments;
+    final first = transaction.amount.split('.').first;
+    final remainder = transaction.amount.split('.').last;
 
     return Scaffold(
       backgroundColor: AppColors.grey,
@@ -57,7 +64,7 @@ class _TransactionDetailsPageState extends State<TransactionDetailsPage> {
                           constraints: const BoxConstraints(),
                           padding: EdgeInsets.zero,
                           splashRadius: doubleMediumSpace,
-                          onPressed: () {},
+                          onPressed: () => Get.back(),
                           icon: const Icon(
                             Icons.chevron_left,
                             color: Colors.white,
@@ -94,16 +101,16 @@ class _TransactionDetailsPageState extends State<TransactionDetailsPage> {
                   ),
                   const Spacer(),
                   RichText(
-                    text: const TextSpan(
-                      text: '32',
-                      style: TextStyle(
+                    text: TextSpan(
+                      text: first,
+                      style: const TextStyle(
                           fontSize: 37,
                           fontWeight: FontWeight.w300,
                           color: AppColors.black),
                       children: <TextSpan>[
                         TextSpan(
-                          text: '.00',
-                          style: TextStyle(
+                          text: '.$remainder',
+                          style: const TextStyle(
                               fontSize: 27,
                               fontWeight: FontWeight.w300,
                               color: AppColors.black),
@@ -121,10 +128,10 @@ class _TransactionDetailsPageState extends State<TransactionDetailsPage> {
               ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                children: const [
+                children: [
                   Text(
-                    "eBay",
-                    style: TextStyle(
+                    transaction.name,
+                    style: const TextStyle(
                       fontSize: 23,
                       fontWeight: FontWeight.w600,
                       color: AppColors.black,
@@ -132,8 +139,8 @@ class _TransactionDetailsPageState extends State<TransactionDetailsPage> {
                     ),
                   ),
                   Text(
-                    '01 JANUARY 2022 01:23 PM',
-                    style: TextStyle(
+                    transaction.createdAt.toString(),
+                    style: const TextStyle(
                       fontSize: 10,
                       fontWeight: FontWeight.w600,
                       color: AppColors.secondary,
@@ -149,74 +156,90 @@ class _TransactionDetailsPageState extends State<TransactionDetailsPage> {
               name: 'Add receipt',
               onPressed: () {},
             ),
-            const Padding(
-              padding: EdgeInsets.only(
-                top: lightSpace * 7,
-                left: doubleLightSpace,
-              ),
-              child: Text(
-                'SHARE THE COST',
-                style: TextStyle(
-                  fontSize: 14,
-                  fontWeight: FontWeight.w600,
-                  color: AppColors.hower,
-                  height: 1.57,
-                ),
-              ),
-            ),
-            WhiteButtons(
-              icon: AppIcons.split,
-              name: 'Split this bill',
-              onPressed: () {},
-            ),
-            const Padding(
-              padding: EdgeInsets.only(
-                top: mediumSpace * 3,
-                left: doubleLightSpace,
-              ),
-              child: Text(
-                'SUBSCRIPTION',
-                style: TextStyle(
-                  fontSize: 14,
-                  fontWeight: FontWeight.w600,
-                  color: AppColors.hower,
-                  height: 1.57,
-                ),
-              ),
-            ),
-            Container(
-              height: mediumSpace * 5,
-              width: double.infinity,
-              color: AppColors.white,
-              padding: const EdgeInsets.only(
-                top: halfMediumSpace * 3,
-                bottom: halfMediumSpace * 3,
-                left: halfMediumSpace * 5,
-                right: largeSpace,
-              ),
-              child: Row(
-                children: [
-                  const Expanded(
+            transaction.type == TransactionType.topUp
+                ? const SizedBox.shrink()
+                : const Padding(
+                    padding: EdgeInsets.only(
+                      top: lightSpace * 7,
+                      left: doubleLightSpace,
+                    ),
                     child: Text(
-                      'Repeating payment',
+                      'SHARE THE COST',
                       style: TextStyle(
                         fontSize: 14,
-                        fontWeight: FontWeight.w500,
-                        color: AppColors.black,
+                        fontWeight: FontWeight.w600,
+                        color: AppColors.hower,
                         height: 1.57,
                       ),
                     ),
                   ),
-                  Switch(
-                    activeColor: AppColors.purple,
-                    value: switchValue,
-                    onChanged: (newValue) {
-                      onSwitchValueChanged(newValue);
+            transaction.type == TransactionType.topUp
+                ? const SizedBox.shrink()
+                : WhiteButtons(
+                    icon: AppIcons.split,
+                    name: 'Split this bill',
+                    onPressed: () {
+                      Get.find<TransactionController>()
+                          .splitTheCost(transaction);
+                      Get.back();
                     },
                   ),
-                ],
-              ),
-            ),
+            transaction.type == TransactionType.topUp
+                ? const SizedBox.shrink()
+                : const Padding(
+                    padding: EdgeInsets.only(
+                      top: mediumSpace * 3,
+                      left: doubleLightSpace,
+                    ),
+                    child: Text(
+                      'SUBSCRIPTION',
+                      style: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w600,
+                        color: AppColors.hower,
+                        height: 1.57,
+                      ),
+                    ),
+                  ),
+            transaction.type == TransactionType.topUp
+                ? const SizedBox.shrink()
+                : Container(
+                    height: mediumSpace * 5,
+                    width: double.infinity,
+                    color: AppColors.white,
+                    padding: const EdgeInsets.only(
+                      top: halfMediumSpace * 3,
+                      bottom: halfMediumSpace * 3,
+                      left: halfMediumSpace * 5,
+                      right: largeSpace,
+                    ),
+                    child: Row(
+                      children: [
+                        const Expanded(
+                          child: Text(
+                            'Repeating payment',
+                            style: TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.w500,
+                              color: AppColors.black,
+                              height: 1.57,
+                            ),
+                          ),
+                        ),
+                        Switch(
+                          activeColor: AppColors.purple,
+                          value: switchValue,
+                          onChanged: (newValue) {
+                            if (newValue) {
+                              Get.find<TransactionController>()
+                                  .addSubscription(transaction);
+                              Get.back();
+                            }
+                          },
+                        ),
+                      ],
+                    ),
+                  ),
             const SizedBox(height: lightSpace * 7),
             Material(
               color: AppColors.white,

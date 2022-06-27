@@ -1,9 +1,11 @@
 import 'package:dartx/dartx.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:money/constants/app_icons.dart';
 import 'package:money/constants/colors.dart';
 import 'package:money/constants/dimension.dart';
+import 'package:money/constants/navigation.dart';
 
 enum TransactionType {
   pay,
@@ -83,7 +85,7 @@ Padding textRecentActivity() {
   );
 }
 
-Material activity(Transaction item) {
+Widget activity(Transaction item) {
   double priceDouble = double.parse(item.amount);
   int priceInteger = priceDouble.floor();
   String reminder =
@@ -111,7 +113,7 @@ Material activity(Transaction item) {
   return Material(
     color: AppColors.white,
     child: InkWell(
-      onTap: () {},
+      onTap: () => Get.toNamed(details, arguments: item),
       child: Container(
         height: mediumSpace * 5,
         width: double.infinity,
