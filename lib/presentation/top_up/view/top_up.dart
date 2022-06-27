@@ -3,7 +3,9 @@ import 'package:get/get.dart';
 import 'package:money/constants/buttons.dart';
 import 'package:money/constants/colors.dart';
 import 'package:money/constants/dimension.dart';
+import 'package:money/constants/navigation.dart';
 import 'package:money/presentation/top_up/controller/controller.dart';
+import 'package:money/presentation/transaction/controller/controller.dart';
 
 class TopUpPage extends StatelessWidget {
   TopUpPage({Key? key}) : super(key: key);
@@ -159,7 +161,19 @@ class TopUpPage extends StatelessWidget {
             const Spacer(),
             AppButton.mainButton(
               title: "Next",
-              onPressed: () {},
+              onPressed: () {
+                if (Get.arguments) {
+                  Get.toNamed(toWhom,
+                      arguments:
+                          '${controller.integer.value}${controller.remainder.value}');
+                } else {
+                  final transactionController =
+                      Get.find<TransactionController>();
+                  transactionController.addTopUpTransaction(
+                      '${controller.integer.value}${controller.remainder.value}');
+                  Get.back();
+                }
+              },
             ),
           ],
         ),

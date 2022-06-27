@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:money/constants/buttons.dart';
 import 'package:money/constants/colors.dart';
 import 'package:money/constants/dimension.dart';
+import 'package:money/constants/navigation.dart';
+import 'package:money/presentation/transaction/controller/controller.dart';
 
 class ToWhomPage extends StatefulWidget {
   const ToWhomPage({Key? key}) : super(key: key);
@@ -51,7 +54,7 @@ class _ToWhomPageState extends State<ToWhomPage> {
                     child: IconButton(
                       constraints: const BoxConstraints(),
                       padding: EdgeInsets.zero,
-                      onPressed: () {},
+                      onPressed: () => Get.back(),
                       icon: const Icon(
                         Icons.cancel,
                         color: Colors.white,
@@ -73,7 +76,8 @@ class _ToWhomPageState extends State<ToWhomPage> {
             const SizedBox(height: doubleMediumSpace * 5),
             Padding(
               padding: const EdgeInsets.symmetric(
-                  horizontal: doubleLargeSpace * 2),
+                horizontal: doubleLargeSpace * 2,
+              ),
               child: SizedBox(
                 height: doubleMediumSpace * 2,
                 child: TextField(
@@ -111,7 +115,17 @@ class _ToWhomPageState extends State<ToWhomPage> {
             const Spacer(),
             AppButton.mainButton(
               title: "Pay",
-              onPressed: () {},
+              onPressed: () {
+                final transactionController = Get.find<TransactionController>();
+                transactionController.addToWhomTransaction(
+                  Get.arguments,
+                  myController.text,
+                );
+                Get.offNamedUntil(
+                  home,
+                  (route) => route.settings.name == home,
+                );
+              },
             ),
           ],
         ),

@@ -5,7 +5,7 @@ import 'package:money/constants/navigation.dart';
 import 'package:money/presentation/to_whom/view/to_whom.dart';
 import 'package:money/presentation/top_up/view/top_up.dart';
 import 'package:money/presentation/details/view/transaction_details.dart';
-import 'package:money/presentation/transaction/transactions.dart';
+import 'package:money/presentation/transaction/view/transactions.dart';
 
 void main() {
   runApp(const MoneyApp());
@@ -22,6 +22,7 @@ class MoneyApp extends StatelessWidget {
         GetPage(
           name: home,
           page: () => const TransactionsPage(),
+          binding: TransactionBinding(),
         ),
         GetPage(
           name: topUp,

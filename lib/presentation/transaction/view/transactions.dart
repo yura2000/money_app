@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:money/constants/app_icons.dart';
 import 'package:money/constants/colors.dart';
 import 'package:money/constants/dimension.dart';
-import 'package:money/presentation/transaction/transaction_model.dart';
+import 'package:money/constants/navigation.dart';
+import 'package:money/presentation/transaction/model/transaction_model.dart';
 import 'package:time/time.dart';
 
 class TransactionsPage extends StatelessWidget {
@@ -91,7 +93,7 @@ class TransactionsPage extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       TextButton(
-                        onPressed: () {},
+                        onPressed: () => Get.toNamed(topUp, arguments: true),
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
@@ -110,7 +112,7 @@ class TransactionsPage extends StatelessWidget {
                       ),
                       const SizedBox(width: 45),
                       TextButton(
-                        onPressed: () {},
+                        onPressed: () => Get.toNamed(topUp, arguments: false),
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
