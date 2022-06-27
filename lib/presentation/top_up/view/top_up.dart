@@ -1,33 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:money/constants/buttons.dart';
 import 'package:money/constants/colors.dart';
 import 'package:money/constants/dimension.dart';
+import 'package:money/presentation/top_up/controller/controller.dart';
 
-String integer = '';
-String remainder = '';
+class TopUpPage extends StatelessWidget {
+  TopUpPage({Key? key}) : super(key: key);
 
-class TopUpPage extends StatefulWidget {
-  const TopUpPage({Key? key}) : super(key: key);
-
-  @override
-  State<TopUpPage> createState() => _TopUpPageState();
-}
-
-class _TopUpPageState extends State<TopUpPage> {
-  final List<String> buttons = [
-    "1",
-    "2",
-    "3",
-    "4",
-    "5",
-    "6",
-    "7",
-    "8",
-    "9",
-    ".",
-    "0",
-    "<",
-  ];
+  final controller = Get.find<TopUpController>();
 
   @override
   Widget build(BuildContext context) {
@@ -61,7 +42,7 @@ class _TopUpPageState extends State<TopUpPage> {
                     child: IconButton(
                       constraints: const BoxConstraints(),
                       padding: EdgeInsets.zero,
-                      onPressed: () {},
+                      onPressed: () => Get.back(),
                       icon: const Icon(
                         Icons.cancel,
                         color: Colors.white,
@@ -81,29 +62,31 @@ class _TopUpPageState extends State<TopUpPage> {
               ),
             ),
             const SizedBox(height: mediumSpace * 6),
-            RichText(
-              textAlign: TextAlign.center,
-              maxLines: 2,
-              text: TextSpan(
-                text: '£',
-                style:
-                    const TextStyle(fontSize: 25, fontWeight: FontWeight.w600),
-                children: <TextSpan>[
-                  TextSpan(
-                    text: integer,
-                    style: const TextStyle(
-                      fontSize: 70,
-                      fontWeight: FontWeight.w600,
+            Obx(
+              () => RichText(
+                textAlign: TextAlign.center,
+                maxLines: 2,
+                text: TextSpan(
+                  text: '£',
+                  style: const TextStyle(
+                      fontSize: 25, fontWeight: FontWeight.w600),
+                  children: <TextSpan>[
+                    TextSpan(
+                      text: '${controller.integer}',
+                      style: const TextStyle(
+                        fontSize: 70,
+                        fontWeight: FontWeight.w600,
+                      ),
                     ),
-                  ),
-                  TextSpan(
-                    text: remainder,
-                    style: const TextStyle(
-                      fontSize: 25,
-                      fontWeight: FontWeight.w600,
+                    TextSpan(
+                      text: '${controller.remainder}',
+                      style: const TextStyle(
+                        fontSize: 25,
+                        fontWeight: FontWeight.w600,
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
             const Spacer(),
@@ -112,7 +95,7 @@ class _TopUpPageState extends State<TopUpPage> {
               child: GridView.builder(
                 physics: const NeverScrollableScrollPhysics(),
                 padding: EdgeInsets.zero,
-                itemCount: buttons.length,
+                itemCount: controller.buttons.length,
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                   childAspectRatio: 2.5,
                   crossAxisCount: 3,
@@ -121,26 +104,14 @@ class _TopUpPageState extends State<TopUpPage> {
                   BuildContext context,
                   int index,
                 ) {
-                  if (index == buttons.length - 1) {
+                  if (index == controller.buttons.length - 1) {
                     return ButtonTheme(
                       minWidth: mediumSpace * 11,
                       height: doubleMediumSpace * 3,
                       child: TextButton(
-                        onPressed: () {
-                          setState(
-                            () {
-                              if (remainder.isEmpty) {
-                                integer =
-                                    integer.substring(0, integer.length - 1);
-                              } else {
-                                remainder = remainder.substring(
-                                    0, remainder.length - 1);
-                              }
-                            },
-                          );
-                        },
+                        onPressed: () => controller.calculate(index),
                         child: Text(
-                          buttons[index],
+                          controller.buttons[index],
                           style: const TextStyle(
                             color: Colors.white,
                             fontSize: 25,
@@ -149,26 +120,14 @@ class _TopUpPageState extends State<TopUpPage> {
                         ),
                       ),
                     );
-                  } else if (index == buttons.length - 3) {
+                  } else if (index == controller.buttons.length - 3) {
                     return ButtonTheme(
                       minWidth: mediumSpace * 11,
                       height: doubleMediumSpace * 3,
                       child: TextButton(
-                        onPressed: () {
-                          setState(
-                            () {
-                              if (remainder.isEmpty) {
-                                remainder += buttons[index];
-                              }
-                              if (integer.isEmpty) {
-                                integer += '0';
-                                remainder = buttons[index];
-                              }
-                            },
-                          );
-                        },
+                        onPressed: () => controller.calculate(index),
                         child: Text(
-                          buttons[index],
+                          controller.buttons[index],
                           style: const TextStyle(
                             color: Colors.white,
                             fontSize: 25,
@@ -182,24 +141,9 @@ class _TopUpPageState extends State<TopUpPage> {
                       minWidth: mediumSpace * 11,
                       height: doubleMediumSpace * 3,
                       child: TextButton(
-                        onPressed: () {
-                          setState(
-                            () {
-                              if (remainder.isNotEmpty &&
-                                  remainder.length < 3) {
-                                remainder += buttons[index];
-                              }
-                              if (integer.isEmpty && buttons[index] == '0') {
-                                integer += buttons[index];
-                                remainder = '.';
-                              } else if (remainder.isEmpty) {
-                                integer += buttons[index];
-                              }
-                            },
-                          );
-                        },
+                        onPressed: () => controller.calculate(index),
                         child: Text(
-                          buttons[index],
+                          controller.buttons[index],
                           style: const TextStyle(
                             color: Colors.white,
                             fontSize: 25,

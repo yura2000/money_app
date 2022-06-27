@@ -1,25 +1,43 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:money/bindings.dart';
+import 'package:money/constants/navigation.dart';
+import 'package:money/presentation/to_whom/view/to_whom.dart';
+import 'package:money/presentation/top_up/view/top_up.dart';
+import 'package:money/presentation/details/view/transaction_details.dart';
+import 'package:money/presentation/transaction/transactions.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(const MoneyApp());
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+class MoneyApp extends StatelessWidget {
+  const MoneyApp({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      home: StartScreen(),
+    return GetMaterialApp(
+      title: 'MoneyApp',
+      getPages: [
+        GetPage(
+          name: home,
+          page: () => const TransactionsPage(),
+        ),
+        GetPage(
+          name: topUp,
+          page: () => TopUpPage(),
+          binding: TopUpBinding(),
+        ),
+        GetPage(
+          name: toWhom,
+          page: () => const ToWhomPage(),
+        ),
+        GetPage(
+          name: details,
+          page: () => const TransactionDetailsPage(),
+        ),
+      ],
+      initialRoute: home,
     );
-  }
-}
-
-class StartScreen extends StatelessWidget {
-  const StartScreen({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return const Scaffold();
   }
 }
