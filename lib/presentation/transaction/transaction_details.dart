@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:money/app_icons.dart';
+import 'package:money/constants/app_icons.dart';
 import 'package:money/constants/colors.dart';
 import 'package:money/constants/dimension.dart';
 
@@ -110,7 +110,7 @@ class _TransactionDetailsPageState extends State<TransactionDetailsPage> {
                         ),
                       ],
                     ),
-                  )
+                  ),
                 ],
               ),
             ),
