@@ -17,6 +17,7 @@ class Transaction {
   final TransactionType type;
   final String name;
   final String amount;
+  final String merchantId;
   DateTime createdAt;
 
   Transaction({
@@ -25,6 +26,7 @@ class Transaction {
     required this.name,
     required this.amount,
     required this.createdAt,
+    this.merchantId = '',
   });
 }
 
@@ -185,6 +187,7 @@ List<Transaction> transaction = [
     name: 'eBay',
     amount: '32.50',
     createdAt: currentDate,
+    merchantId: '42134',
   ),
   Transaction(
     id: '95628FDFSA',
@@ -192,6 +195,7 @@ List<Transaction> transaction = [
     name: 'Amazon',
     amount: '32.00',
     createdAt: currentDate.subtract(const Duration(days: 1)),
+    merchantId: '87334',
   ),
   Transaction(
     id: '12345GKKFLF',
@@ -199,6 +203,7 @@ List<Transaction> transaction = [
     name: 'Merton Council',
     amount: '65.55',
     createdAt: currentDate,
+    merchantId: '75093',
   ),
   Transaction(
     id: '12345LKPQEW',
@@ -213,6 +218,7 @@ List<Transaction> transaction = [
     name: 'John Snow',
     amount: '1400.00',
     createdAt: currentDate.subtract(const Duration(days: 2)),
+    merchantId: '23987',
   ),
   Transaction(
     id: '12445FDFSA',

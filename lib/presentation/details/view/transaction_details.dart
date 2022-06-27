@@ -246,7 +246,7 @@ class _TransactionDetailsPageState extends State<TransactionDetailsPage> {
               child: InkWell(
                 onTap: () => showDialog(
                   context: context,
-                  builder: (_) => Dialog(),
+                  builder: (_) => const Dialog(),
                   barrierDismissible: false,
                 ),
                 child: Container(
@@ -270,8 +270,8 @@ class _TransactionDetailsPageState extends State<TransactionDetailsPage> {
                 ),
               ),
             ),
-            const Padding(
-              padding: EdgeInsets.only(
+            Padding(
+              padding: const EdgeInsets.only(
                 right: mediumSpace * 9.5,
                 left: mediumSpace * 9.5,
                 top: doubleLargeSpace * 2,
@@ -279,9 +279,9 @@ class _TransactionDetailsPageState extends State<TransactionDetailsPage> {
               ),
               child: Center(
                 child: Text(
-                  'Transaction ID #1223SD23RWDF2DFAS eBay - Merchant ID #1245',
+                  'Transaction ID ${transaction.id} ${transaction.name} ${transaction.type == TransactionType.topUp ? '' : '- Merchant ID #${transaction.merchantId}'}',
                   textAlign: TextAlign.center,
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontSize: 10,
                     fontWeight: FontWeight.w600,
                     color: AppColors.secondary,
