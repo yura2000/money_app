@@ -81,10 +81,6 @@ class TransactionController extends GetxController {
     currentAmount.value =
         (double.parse(currentAmount.value) - double.parse(amount))
             .toStringAsFixed(2);
-    // integerAmount.value =
-    //     int.parse(currentAmount.split('.').first).toStringAsFixed(2);
-    // floatAmount.value =
-    //     int.parse(currentAmount.split('.').last).toStringAsFixed(2);
     transactions.add(newTransaction);
   }
 
@@ -97,10 +93,6 @@ class TransactionController extends GetxController {
     currentAmount.value =
         (double.parse(currentAmount.value) + double.parse(halfAmount))
             .toStringAsFixed(2);
-    // integerAmount.value =
-    //     int.parse(currentAmount.split('.').first).toStringAsFixed(2);
-    // floatAmount.value =
-    //     int.parse(currentAmount.split('.').last).toStringAsFixed(2);
     transactions.add(newTransaction);
   }
 
@@ -112,11 +104,7 @@ class TransactionController extends GetxController {
     );
     currentAmount.value =
         (double.parse(currentAmount.value) - double.parse(transaction.amount))
-            .toString();
-    // integerAmount.value =
-    //     int.parse(currentAmount.split('.').first).toStringAsFixed(2);
-    // floatAmount.value =
-    //     int.parse(currentAmount.split('.').last).toStringAsFixed(2);
+            .toStringAsFixed(2);
     transactions.add(newTransaction);
   }
 
