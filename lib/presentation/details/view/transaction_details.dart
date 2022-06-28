@@ -18,15 +18,18 @@ class TransactionDetailsPage extends StatefulWidget {
 class _TransactionDetailsPageState extends State<TransactionDetailsPage> {
   @override
   Widget build(BuildContext context) {
-    onSwitchValueChanged(newValue) {
-      setState(() {
-        switchValue = newValue;
-      });
-    }
-
     final Transaction transaction = Get.arguments;
     final first = transaction.amount.split('.').first;
-    final remainder = transaction.amount.split('.').last;
+    String remainder = transaction.amount.split('.').last;
+
+    if (transaction.amount.contains('.') != true || remainder.isEmpty) {
+      remainder = '00';
+    } else {
+      remainder = transaction.amount.split('.').last;
+    }
+    if (remainder.length == 1) {
+      remainder += '0';
+    }
 
     return Scaffold(
       backgroundColor: AppColors.grey,
